@@ -1,0 +1,162 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+import requests
+from bs4 import BeautifulSoup
+import time
+
+#Esta funcion es para la extrapoalcioan de bins
+def ExtrapolarBin():
+    pass
+
+
+
+#Esta funcion es para la extrapoalcioan de cocos
+def ExtrapolarCoCo():
+    pass
+
+#Esta funcion es para la extraccion de datos de un bin
+def ExtrarDatosBin():
+    while True:
+        try:
+            #Pide el bin
+            bin = int(input(
+                """
+Coloca El bin sin las \"x\" y sin espacion:
+
+>>> """))
+            #Este if es para comprobar de el que bin sea de 6 o 8 digitos para que no de error
+            if int(len(str(bin))) == 8 or int(len(str(bin))) == 6:
+                print("Obteniendo informacion...")
+                #obtiene los datos de la pagina
+                url = requests.get("https://binlists.com/" + str(bin))
+                sopa = BeautifulSoup(url.text, "html5lib")
+
+                #este if comprueba de que el bin es un bin valido
+                if str(sopa.find("h1").string) == "NaN":
+                    print("No es un bin valido pruebe con otro")
+                    time.sleep(3)
+
+                else:
+                    #este if tambien comprueba de que se haya hecho una respuesta correcta con el servidor
+                    if url.status_code == 200:
+                        #obtiene las etiquetas h3 y las  imprime mas tarde
+                        h3s = sopa.find_all("h3")
+
+                        #como hay 2 tablas y para que quedara algo mas organizado decidi hacer una variable para cada fila completa y luego imprimirla mas facil
+                        binin = sopa.find_all("table")[0].find_all("tr")[0].find_all("td")[0].string , ":" , sopa.find_all("table")[0].find_all("tr")[0].find_all("td")[1].string
+
+                        brand = sopa.find_all("table")[0].find_all("tr")[1].find_all("td")[0].string , ":" , sopa.find_all("table")[0].find_all("tr")[1].find_all("td")[1].string
+
+                        type = sopa.find_all("table")[0].find_all("tr")[2].find_all("td")[0].string , ":" , sopa.find_all("table")[0].find_all("tr")[2].find_all("td")[1].string
+
+                        cardlength = sopa.find_all("table")[0].find_all("tr")[3].find_all("td")[0].string , ":" , sopa.find_all("table")[0].find_all("tr")[3].find_all("td")[1].string
+
+                        bank = sopa.find_all("table")[1].find_all("tr")[0].find_all("td")[0].string , ":" , sopa.find_all("table")[1].find_all("tr")[0].find_all("td")[1].string
+
+                        bankUrl = sopa.find_all("table")[1].find_all("tr")[1].find_all("td")[0].string , ":" , \
+                                  sopa.find_all("table")[1].find_all("tr")[1].find_all("td")[1].string
+
+                        county = sopa.find_all("table")[1].find_all("tr")[2].find_all("td")[0].string , ":" , \
+                                 sopa.find_all("table")[1].find_all("tr")[1].find_all("td")[1].string
+
+                        city = sopa.find_all("table")[1].find_all("tr")[3].find_all("td")[0].string , ":" , \
+                               sopa.find_all("table")[1].find_all("tr")[3].find_all("td")[1].string
+
+                        phone = sopa.find_all("table")[1].find_all("tr")[4].find_all("td")[0].string , ":" , \
+                                sopa.find_all("table")[1].find_all("tr")[4].find_all("td")[1].string
+
+                        #se imprime en el orden de primero el h3 y luego las filas
+                        print(h3s[0].string)
+                        print(binin)
+                        print(brand)
+                        print(type)
+                        print(cardlength)
+
+                        print(h3s[1].string)
+                        print(bank)
+                        print(bankUrl)
+                        print(county)
+                        print(city)
+                        print(phone)
+
+                        time.sleep(3)
+                        break
+                    else:
+                        print("Hay un fallo de conexion intenta mas tarde")
+                        time.sleep(2)
+            else:
+                print("pon un bin que sea de 6 numeros o 8")
+                time.sleep(2)
+        except ValueError:
+
+            print("coloca bien el bin pendejo")
+
+#Esta funcion es para la extraccion de datos de un coco
+def ExtrarDatosCoCo():
+    pass
+
+#Esta funcion genera un bin
+def GenBin():
+    pass
+
+#Esta funciona genera cocos de un bin
+def GenCoCo():
+    pass
+
+#Esta funcion comprueba en que paginas funciona un bin
+def PaginasBin():
+    pass
+
+#Esta funcion saca lives
+def CoCoLive():
+    pass
+
+
+try:
+    while True:
+        opcion = int(input("""
+ELige una opcion:
+1) Extrapolar bin
+2) Extrapolar CoCo
+3) Extraer datos de un bin
+4) Extraer datos de una cc
+5) Generar bin
+6) Generar CoCos de un bin
+7) Comprobar en que paginas funciona el bin
+8) Probar si es live
+
+>>> """
+    ))
+        if opcion == 1:
+            ExtrapolarBin()
+
+        elif opcion == 2:
+            ExtrapolarCoCo()
+
+        elif opcion == 3:
+            print(3)
+            ExtrarDatosBin()
+
+        elif opcion == 4:
+            ExtrapolarBin()
+
+        elif opcion == 5:
+            GenBin()
+
+
+        elif opcion == 6:
+            GenCoCo()
+
+        elif opcion == 7:
+            PaginasBin()
+
+
+        elif opcion == 8:
+            CoCoLive()
+
+        else:
+            print("Coloca una opcion valida: ")
+
+except ValueError:
+    print("Coloca una opcion valida")
